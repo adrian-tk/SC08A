@@ -35,6 +35,12 @@ def send_test_message():
 root=tk.Tk()
 button_connect=tk.Button(root, text="connect", command=connect_to_rpi)
 button_connect.pack()
+
+lframe_ServosControl = tk.LabelFrame(root, text="Servos Control")
+lframe_ServosControl.pack()
+
+scale_servo_t = tk.Scale(lframe_ServosControl, from_=0, to=100)
+scale_servo_t.pack()
 root.mainloop()
 try:
     s.close()
