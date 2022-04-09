@@ -32,7 +32,14 @@ def connect_to_rpi():
 def send_test_message():
     s.send("dupa".encode())
 
+def servo_t(event):
+    print(scale_servo_t.get())
+
 root=tk.Tk()
+root.title('SC08A servo commander')
+root.geometry('300x200')
+#root.iconbitmap(r'/home/domel/repo/Python/SC08A/img/AT_32.ico')
+root.iconbitmap('@/home/domel/repo/Python/SC08A/img/AT.xbm')
 button_connect=tk.Button(root, text="connect", command=connect_to_rpi)
 button_connect.pack()
 
@@ -40,6 +47,7 @@ lframe_ServosControl = tk.LabelFrame(root, text="Servos Control")
 lframe_ServosControl.pack()
 
 scale_servo_t = tk.Scale(lframe_ServosControl, from_=0, to=100)
+scale_servo_t.bind("<ButtonRelease-1>", servo_t)
 scale_servo_t.pack()
 root.mainloop()
 try:
