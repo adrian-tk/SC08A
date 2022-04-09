@@ -3,7 +3,7 @@ import tkinter as tk
 
 #host = 'malina'
 host = "192.168.1.38"
-print(host)
+print("will try to connect to: "+host)
 port=12000
 
 conn_status=False #is connected already?
@@ -11,7 +11,6 @@ conn_status=False #is connected already?
 def connect_to_rpi():
     global conn_status
     global s
-    print("conn_status: " + str(conn_status))
     try:
         if conn_status == False:
             s=socket.socket()
@@ -34,6 +33,7 @@ def send_test_message():
 
 def servo_t(event):
     print(scale_servo_t.get())
+    s.send(("set servo to: " + str(scale_servo_t.get())).encode())
 
 root=tk.Tk()
 root.title('SC08A servo commander')
