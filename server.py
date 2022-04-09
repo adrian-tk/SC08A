@@ -12,9 +12,10 @@ print("host: " + host +" is waiting for Connection")
 while True:
     c,addr=s.accept()
     print("Client connected")
-    content=c.recv(100).decode()
-    if not content:
-        #break
-        print("No content")
-    print (content)
+    while True:
+        content=c.recv(100).decode()
+        if not content:
+            break
+            print("No content")
+        print (content)
 
