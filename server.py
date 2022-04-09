@@ -15,7 +15,7 @@ while True:
     while True:
         content=c.recv(100).decode()
         if not content:
+            print("No content, disconnect")
             break
-            print("No content")
         print (content)
 
