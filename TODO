@@ -1,0 +1,1 @@
+scale send data to socket, error when there is no socket
