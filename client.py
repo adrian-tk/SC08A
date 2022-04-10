@@ -1,14 +1,15 @@
 import socket
 import tkinter as tk
 
+DEBUG = True
 #host = 'malina'
 host = "192.168.1.38"
-print("will try to connect to: "+host)
 port=12000
 
 conn_status=False #is connected already?
 
 def connect_to_rpi():
+    if DEBUG: print("INFO: will try to connect to: "+host)
     global conn_status
     global s
     try:
@@ -17,24 +18,28 @@ def connect_to_rpi():
             s.connect((host,port))
             button_connect.config(text="disconnect")
             conn_status = True
-            print("Connected to: " + host)
+            print("INFO: Connected to: " + host)
         else:
-            print("Disconected from: " + host)
+            print("INFO: Disconected from: " + host)
             button_connect.config(text="connect")
             conn_status = False
             s.shutdown(socket.SHUT_RDWR)
             s.close()
 
     except Exception as e:
-        print ("ERROR: " + str(e))
+        if DEBUG: print ("ERROR: " + str(e))
 
 def send_test_message():
     s.send("dupa".encode())
 
 def servo_t(event):
-    print(scale_servo_t.get())
-    s.send(("set servo to: " + str(scale_servo_t.get())).encode())
+    if DEBUG: print("INFO: scale value: " + str(scale_servo_t.get()))
+    if conn_status:
+        s.send(("set servo to: " + str(scale_servo_t.get())).encode())
+    else:
+        if DEBUG: print("WARNING: there is no connection between rpi and SC08A")
 
+if DEBUG: print("INFO: =====Start of client=====")
 root=tk.Tk()
 root.title('SC08A servo commander')
 root.geometry('300x200')
@@ -53,6 +58,6 @@ root.mainloop()
 try:
     s.close()
 except:
-    print("WARNING: socket already closed")
+    if DEBUG: print("WARNING: socket already closed")
 
-print("End of program")
+if DEBUG: print("INFO: End of client")
