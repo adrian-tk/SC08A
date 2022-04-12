@@ -35,7 +35,7 @@ def send_test_message():
 def servo_t(event):
     if DEBUG: print("INFO: scale value: " + str(scale_servo_t.get()))
     if conn_status:
-        s.send(("set servo to: " + str(scale_servo_t.get())).encode())
+        s.send((str(scale_servo_t.get())).encode())
     else:
         if DEBUG: print("WARNING: there is no connection between rpi and SC08A")
 
@@ -51,7 +51,7 @@ button_connect.pack()
 lframe_ServosControl = tk.LabelFrame(root, text="Servos Control")
 lframe_ServosControl.pack()
 
-scale_servo_t = tk.Scale(lframe_ServosControl, from_=0, to=100)
+scale_servo_t = tk.Scale(lframe_ServosControl, from_=0, to=8000)
 scale_servo_t.bind("<ButtonRelease-1>", servo_t)
 scale_servo_t.pack()
 root.mainloop()
