@@ -19,19 +19,22 @@ print("INFO: host: " + host +" is waiting for Connection")
 
 while True:
     c,addr=s.accept()
-    print("Client connected")
+    print("INFO: Client connected on socket")
     try:
-        ser = uart_SC08A.start_uart_conn()
-        if DEBUG: print("INFO: uart connection started")
-        if DEBUG: print(ser)
-    except:
-        print("ERROR: can't get uart connection to SC08A")
+        ser = uart_SC08A.SC08A()
+        ser.on()
+        if DEBUG: print("INFO: server: uart connection started")
+        if DEBUG: print("      " + str(ser))
+    except Exception as e:
+        print("ERROR: server: can't get uart connection to SC08A")
+        print("       " + str(e))
     while True:
         content=c.recv(100).decode()
         if not content:
-            if DEBUG: print("INFO: No content, disconnect")
-            if DEBUG: print("INFO: stop uart connection")
-            uart_SC08A.close_uart_conn(ser)
+            if DEBUG: print("INFO: server: No content, disconnect")
+            if DEBUG: print("INFO: server: stop socket connection")
+            ser.off()
             break
-        print ("INFO: data from uart: " + str(content))
-print("INFO: End of server")
+        if DEBUG: print ("INFO: server: data from client: " + str(content))
+        ser.uart.write(ser.pack_data(8, float(content), 1.0))
+print("INFO: server: End of server")
