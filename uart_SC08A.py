@@ -1,6 +1,15 @@
 import serial
 import time
-class SC08A:
+
+class Servo:
+    """Class for manipulate servo"""
+    def __init__(self, channel):
+        self.channel = channel
+        self.speed = 0
+        self.position = 0
+        self.scale = 1
+
+class SC08A(Servo):
     def __init__(self):
         """Initialize class with default uart values"""
         self.DEBUG = True
@@ -8,6 +17,9 @@ class SC08A:
         self.uart_bdr=9600
         if self.DEBUG: print ("INFO: SC08A __init__: initialized:")
         if self.DEBUG: print ("      " + str(self))
+        self.no_of_srv =8
+        self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
+        if self.DEBUG: print ("INFO: SC08A created " + str(self.no_of_srv)+ " servos")
 
     def pack_data(self, channel, speed, scale):
         """creates bytes data in SC08A format to send over uart"""
@@ -32,8 +44,7 @@ class SC08A:
         """initializes uart connection and servos"""
         if self.DEBUG: print("INFO: SC08A: on(): start of uart connection")
         try:
-            #self.uart = serial.Serial (self.uart_addr)
-            self.uart = serial.Serial ('/dev/ttyS0')
+            self.uart = serial.Serial (self.uart_addr)
             if self.DEBUG: print ("INFO: SC08A: on(): uart connected on: ")
             if self.DEBUG: print ("      " + str(self.uart_addr))
             if self.DEBUG: print ("INFO: SC08A: on(): uart: " + str(self.uart))
@@ -61,10 +72,7 @@ class SC08A:
         self.uart.close()
         if self.DEBUG: print ("INFO: off(): uart connection closed")
 
-class Servo:
-    """Class for manipulate servo"""
-    def __init__(self):
-        self.channel = 0
-        self.speed = 0
-        self.position = 0
-        self.scale = 1
+
+driver=SC08A()
+print (driver.servo[1].speed)
+
