@@ -33,10 +33,13 @@ def connect_to_rpi():
 def send_test_message():
     s.send("dupa".encode())
 
-def servo_t(event):
-    if DEBUG: print("INFO: scale value: " + str(scale_servo_t.get()))
+#def servo_t(event):
+def servo_t(i):
+    #if DEBUG: print(f"INFO: scale {i} value: {(scale_list[i].get())}")
+    #data = {"name": "Scale", "number": i, "value": scale_list[i].get()}
+    print (data)
     if conn_status:
-        s.send((str(scale_servo_t.get())).encode())
+        s.send((str(scale_list.get())).encode())
     else:
         if DEBUG: print("WARNING: there is no connection between rpi and SC08A")
 
@@ -44,7 +47,7 @@ if DEBUG: print("INFO: =====Start of client=====")
 if DEBUG: print(f"INFO: actual directory: {os.getcwd()}")
 root=tk.Tk()
 root.title('SC08A servo commander')
-root.geometry('300x200')
+root.geometry('600x200')
 try:
     icopath=f"@{os.getcwd()}/img/AT.xbm"
     root.iconbitmap(icopath)
@@ -57,9 +60,13 @@ button_connect.pack()
 lframe_ServosControl = tk.LabelFrame(root, text="Servos Control")
 lframe_ServosControl.pack()
 
-scale_servo_t = tk.Scale(lframe_ServosControl, from_=0, to=8000)
-scale_servo_t.bind("<ButtonRelease-1>", servo_t)
-scale_servo_t.pack()
+scale_list=[]
+for i in range(8):
+    def func(event, x=i):
+        return servo_t(x)
+    scale_list.insert(i, tk.Scale(lframe_ServosControl, from_=0, to=8000))
+    scale_list[i].bind("<ButtonRelease-1>", func)
+    scale_list[i].pack(side=tk.LEFT)
 root.mainloop()
 try:
     s.close()
