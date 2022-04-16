@@ -4,23 +4,12 @@ import time
 class Servo:
     """Class for manipulate servo"""
     def __init__(self, channel):
+        self.DEBUG=True
+        self.uart = 0
         self.channel = channel
         self.speed = 0
         self.position = 0
         self.scale = 1
-
-class SC08A(Servo):
-    def __init__(self):
-        """Initialize class with default uart values"""
-        self.DEBUG = True
-        self.uart_addr = "/dev/ttyS0"
-        self.uart_bdr=9600
-        if self.DEBUG: print ("INFO: SC08A __init__: initialized:")
-        if self.DEBUG: print ("      " + str(self))
-        self.no_of_srv =8
-        self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
-        if self.DEBUG: print(f"INFO: SC08A created {self.no_of_srv} servos")
-
     def pack_data(self, channel, speed, scale):
         """creates bytes data in SC08A format to send over uart"""
         tmp=bin(channel).replace("0b", "")
@@ -39,6 +28,24 @@ class SC08A(Servo):
         if self.DEBUG: print ("INFO: pack_data(): returned value: ")
         if self.DEBUG: print ("      " + str(outp))
         return outp
+    def set(self, val):
+        self.val = val
+        sdata= self.pack_data(self.channel, self.val, self.scale)
+        self.uart.write(sdata)
+
+
+class SC08A(Servo):
+    def __init__(self):
+        """Initialize class with default uart values"""
+        self.DEBUG = True
+        self.uart_addr = "/dev/ttyS0"
+        self.uart_bdr=9600
+        if self.DEBUG: print ("INFO: SC08A __init__: initialized:")
+        if self.DEBUG: print ("      " + str(self))
+        self.no_of_srv =8
+        self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
+        if self.DEBUG: print(f"INFO: SC08A created {self.no_of_srv} servos")
+
 
     def on(self):
         """initializes uart connection and servos"""
@@ -61,6 +68,9 @@ class SC08A(Servo):
         if self.DEBUG: print ("INFO: on(): baudrate set to: " + str(self.uart_bdr))
         self.uart.write(b'\xC0\x01') #turn on
         if self.DEBUG: print ("INFO: on(): servos turend on")
+        for i in self.servo:
+            print (i)
+            i.uart = self.uart
 
     def off(self):
         """stop and turn off servos"""
@@ -74,5 +84,4 @@ class SC08A(Servo):
 
 
 driver=SC08A()
-print (driver.servo[1].speed)
-
+print (driver.servo[2].speed)

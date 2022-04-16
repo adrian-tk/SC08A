@@ -21,10 +21,10 @@ while True:
     c,addr=s.accept()
     print("INFO: Client connected on socket")
     try:
-        ser = uart_SC08A.SC08A()
-        ser.on()
+        driver = uart_SC08A.SC08A()
+        driver.on()
         if DEBUG: print("INFO: server: uart connection started")
-        if DEBUG: print("      " + str(ser))
+        if DEBUG: print("      " + str(driver))
     except Exception as e:
         print("ERROR: server: can't get uart connection to SC08A")
         print("       " + str(e))
@@ -33,8 +33,9 @@ while True:
         if not content:
             if DEBUG: print("INFO: server: No content, disconnect")
             if DEBUG: print("INFO: server: stop socket connection")
-            ser.off()
+            driver.off()
             break
         if DEBUG: print ("INFO: server: data from client: " + str(content))
-        ser.uart.write(ser.pack_data(8, float(content), 1.0))
+        #driver.uart.write(ser.pack_data(8, float(content), 1.0))
+        driver.servo[1].set(float(content))
 print("INFO: server: End of server")
