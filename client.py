@@ -1,6 +1,7 @@
 import socket
 import tkinter as tk
 import os
+import json
 
 DEBUG = True
 #host = 'malina'
@@ -35,11 +36,12 @@ def send_test_message():
 
 #def servo_t(event):
 def servo_t(i):
-    #if DEBUG: print(f"INFO: scale {i} value: {(scale_list[i].get())}")
-    #data = {"name": "Scale", "number": i, "value": scale_list[i].get()}
-    print (data)
+    if DEBUG: print(f"INFO: scale {i} value: {(scale_list[i].get())}")
     if conn_status:
-        s.send((str(scale_list.get())).encode())
+        data = {"name": "Scale", "number": i, "value": scale_list[i].get()}
+        ts = json.dumps(data)
+        s.send(ts.encode())
+        if DEBUG: print (f"INFO: data sended to RPI: {ts}")
     else:
         if DEBUG: print("WARNING: there is no connection between rpi and SC08A")
 
