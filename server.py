@@ -1,5 +1,6 @@
 import socket
 import uart_SC08A
+import json
 
 DEBUG=True
 
@@ -29,13 +30,18 @@ while True:
         print("ERROR: server: can't get uart connection to SC08A")
         print("       " + str(e))
     while True:
-        content=c.recv(100).decode()
+        content=c.recv(1024).decode()
         if not content:
             if DEBUG: print("INFO: server: No content, disconnect")
             if DEBUG: print("INFO: server: stop socket connection")
             driver.off()
             break
         if DEBUG: print ("INFO: server: data from client: " + str(content))
+        data = json.loads(content)
+        print (data["number"])
+        servo_no = data["number"]
+        servo_val = data["value"]
+        driver.servo[servo_no].set(float(servo_val))
         #driver.uart.write(ser.pack_data(8, float(content), 1.0))
-        driver.servo[1].set(float(content))
+        #driver.servo[1].set(float(content))
 print("INFO: server: End of server")
