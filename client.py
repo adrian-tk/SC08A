@@ -1,5 +1,6 @@
 import socket
 import tkinter as tk
+import os
 
 DEBUG = True
 #host = 'malina'
@@ -40,11 +41,16 @@ def servo_t(event):
         if DEBUG: print("WARNING: there is no connection between rpi and SC08A")
 
 if DEBUG: print("INFO: =====Start of client=====")
+if DEBUG: print(f"INFO: actual directory: {os.getcwd()}")
 root=tk.Tk()
 root.title('SC08A servo commander')
 root.geometry('300x200')
-#root.iconbitmap(r'/home/domel/repo/Python/SC08A/img/AT_32.ico')
-root.iconbitmap('@/home/domel/repo/Python/SC08A/img/AT.xbm')
+try:
+    icopath=f"@{os.getcwd()}/img/AT.xbm"
+    root.iconbitmap(icopath)
+except Exception as e:
+    print("ERROR: can't set icon:")
+    print(f"       {e}")
 button_connect=tk.Button(root, text="connect", command=connect_to_rpi)
 button_connect.pack()
 
