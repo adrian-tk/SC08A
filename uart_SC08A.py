@@ -19,7 +19,7 @@ class SC08A(Servo):
         if self.DEBUG: print ("      " + str(self))
         self.no_of_srv =8
         self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
-        if self.DEBUG: print ("INFO: SC08A created " + str(self.no_of_srv)+ " servos")
+        if self.DEBUG: print(f"INFO: SC08A created {self.no_of_srv} servos")
 
     def pack_data(self, channel, speed, scale):
         """creates bytes data in SC08A format to send over uart"""
