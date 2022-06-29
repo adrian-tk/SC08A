@@ -5,7 +5,7 @@ import json
 
 DEBUG = True
 #host = 'malina'
-host = "192.168.1.38"
+host = "192.168.0.141"
 port=12000
 
 conn_status=False #is connected already?
