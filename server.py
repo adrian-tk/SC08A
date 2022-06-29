@@ -10,7 +10,7 @@ print ("INFO: =====server started=====")
 
 s=socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-host="192.168.1.38"
+host="192.168.0.141"
 #host=socket.gethostname()
 port=12000
 s.bind((host,port))
