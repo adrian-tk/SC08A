@@ -1,2 +1,3 @@
 scale send data to socket, error when there is no socket
 program hangs when cant connect
+add config for IP addres in client, and checking of IP in server
