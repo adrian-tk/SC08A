@@ -1,10 +1,10 @@
 import serial
 import time
+import logging
 
 class Servo:
     """Class for manipulate servo"""
     def __init__(self, channel):
-        self.DEBUG=True
         self.uart = 0
         self.channel = channel
         self.speed = 0
@@ -16,7 +16,7 @@ class Servo:
         tmp = '{:>05}'.format(tmp)
         byte1=int('111' + tmp, 2)
         speed =int(float(speed)*scale)
-        if self.DEBUG: print ("INFO: pack_data(): input speed: " + str(speed))
+        logging.debug("pack_data(): input speed: " + str(speed))
         if speed > 8000: speed=8000
         if speed < 0: speed=0
         tmp = bin(speed).replace("0b", "")
@@ -25,8 +25,8 @@ class Servo:
         byte3=int(('00'+ tmp[7:]), 2)
         byte4=int('00000000', 2)
         outp=bytes([byte1, byte2, byte3, byte4])
-        if self.DEBUG: print ("INFO: pack_data(): returned value: ")
-        if self.DEBUG: print ("      " + str(outp))
+        logging.debug("pack_data(): returned value: ")
+        logging.debug("      " + str(outp))
         return outp
     def set(self, val):
         self.val = val
@@ -37,51 +37,49 @@ class Servo:
 class SC08A(Servo):
     def __init__(self):
         """Initialize class with default uart values"""
-        self.DEBUG = True
         self.uart_addr = "/dev/ttyS0"
         self.uart_bdr=9600
-        if self.DEBUG: print ("INFO: SC08A __init__: initialized:")
-        if self.DEBUG: print ("      " + str(self))
+        logging.debug("SC08A __init__: initialized:")
+        logging.debug("      " + str(self))
         self.no_of_srv =8
         self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
-        if self.DEBUG: print(f"INFO: SC08A created {self.no_of_srv} servos")
+        logging.info(f"SC08A created {self.no_of_srv} servos")
 
 
     def on(self):
         """initializes uart connection and servos"""
-        if self.DEBUG: print("INFO: SC08A: on(): start of uart connection")
+        logging.debug("SC08A: on(): start of uart connection")
         try:
             self.uart = serial.Serial (self.uart_addr)
-            if self.DEBUG: print ("INFO: SC08A: on(): uart connected on: ")
-            if self.DEBUG: print ("      " + str(self.uart_addr))
-            if self.DEBUG: print ("INFO: SC08A: on(): uart: " + str(self.uart))
+            logging.debug("SC08A: on(): uart connected on: ")
+            logging.debug("      " + str(self.uart_addr))
+            logging.debug("SC08A: on(): uart: " + str(self.uart))
         except Exception as e:
-            print ("ERROR: SC08A: on(): uart can't connect on " + self.uart_addr )
-            print ("ERROR: SC08A: on(): " + str(e))
+            logging.error ("SC08A: on(): uart can't connect on " + self.uart_addr )
+            logging.error ("SC08A: on(): " + str(e))
             return(-1)
         try:
             self.uart.baudrate = self.uart_bdr
         except Exception as e:
-            print ("ERROR: on(): can't set baudrate")
-            print ("ERROR: on(): " + str(e))
+            logging.error ("on(): can't set baudrate")
+            logging.error ("on(): " + str(e))
             
-        if self.DEBUG: print ("INFO: on(): baudrate set to: " + str(self.uart_bdr))
+        logging.debug("INFO: on(): baudrate set to: " + str(self.uart_bdr))
         self.uart.write(b'\xC0\x01') #turn on
-        if self.DEBUG: print ("INFO: on(): servos turend on")
+        logging.debug("INFO: on(): servos turend on")
         for i in self.servo:
-            print (i)
+            logging.debug (i)
             i.uart = self.uart
 
     def off(self):
         """stop and turn off servos"""
         outp = b'\xE0\x3E\x20\x00' #stop?
         self.uart.write(outp)
-        if self.DEBUG: print ("INFO: off(): servos stopped")
+        logging.debug("off(): servos stopped")
         self.uart.write(b'\xC0\x00') #turn off
-        if self.DEBUG: print ("INFO: off(): servos off")
+        logging.debug("off(): servos off")
         self.uart.close()
-        if self.DEBUG: print ("INFO: off(): uart connection closed")
+        logging.debug("off(): uart connection closed")
 
 
 driver=SC08A()
-print (driver.servo[2].speed)
