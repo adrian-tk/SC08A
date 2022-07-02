@@ -1,7 +1,7 @@
 import logging
 logging.basicConfig(level=logging.DEBUG)
 import socket
-import uart_SC08A
+import SC08A
 import json
 
 
@@ -23,7 +23,7 @@ while True:
     c,addr=s.accept()
     logging.info("Client connected on socket")
     try:
-        driver = uart_SC08A.SC08A()
+        driver = SC08A.SC08A()
         driver.on()
         logging.debug("server: uart connection started")
         logging.debug("      " + str(driver))
