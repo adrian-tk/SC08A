@@ -1,13 +1,13 @@
+import logging
+logging.basicConfig(level=logging.DEBUG)
 import socket
 import uart_SC08A
 import json
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
 
 logging.info("")
 logging.info("")
-logging.debug("=====server started=====")
+logging.info("=====server started=====")
 
 s=socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
