@@ -3,9 +3,11 @@ import uart_SC08A
 import json
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+
 logging.info("")
 logging.info("")
-logging.info("=====server started=====")
+logging.debug("=====server started=====")
 
 s=socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
