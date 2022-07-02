@@ -39,8 +39,7 @@ class SC08A(Servo):
         """Initialize class with default uart values"""
         self.uart_addr = "/dev/ttyS0"
         self.uart_bdr=9600
-        logging.debug("SC08A __init__: initialized:")
-        logging.debug("      " + str(self))
+        logging.debug("SC08A initialized")
         self.no_of_srv =8
         self.servo=[Servo(i) for i in range (0, self.no_of_srv)]
         logging.info(f"SC08A created {self.no_of_srv} servos")
@@ -82,4 +81,4 @@ class SC08A(Servo):
         logging.debug("off(): uart connection closed")
 
 
-driver=SC08A()
+#driver=SC08A()
