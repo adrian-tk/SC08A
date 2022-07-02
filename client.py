@@ -13,7 +13,6 @@ conn_status=False #is connected already?
 
 def connect_to_rpi():
     logging.debug("will try to connect to: "+host)
-    logging.debug("will try to connect to: ")
     global conn_status
     global s
     try:
