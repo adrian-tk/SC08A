@@ -4,16 +4,15 @@ import socket
 import SC08A
 import json
 
-
-logging.info("")
-logging.info("")
 logging.info("=====server started=====")
 
 s=socket.socket()
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-host="192.168.0.141"
-#host=socket.gethostname()
+hostname=socket.gethostname()
+host=socket.gethostbyname(hostname +".local")
 port=12000
+logging.debug(f"trying to get socket on: {host}:{port} ({hostname})")
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+#host="192.168.0.141"
 s.bind((host,port))
 s.listen(10)
 logging.info("host: " + host +" is waiting for Connection")
