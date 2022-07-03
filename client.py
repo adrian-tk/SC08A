@@ -5,8 +5,9 @@ import json
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-#host = 'malina'
-host = "192.168.0.141"
+hostname = 'malina'
+host = socket.gethostbyname(hostname +".local")
+#host = "192.168.0.141"
 port=12000
 
 conn_status=False #is connected already?
@@ -48,6 +49,7 @@ def servo_t(i):
 
 logging.info("=====Start of client=====")
 logging.debug(f"actual directory: {os.getcwd()}")
+logging.debug(socket.gethostbyname("malina" +".local"))
 root=tk.Tk()
 root.title('SC08A servo commander')
 root.geometry('600x200')
@@ -69,6 +71,7 @@ for i in range(8):
         return servo_t(x)
     scale_list.insert(i, tk.Scale(lframe_ServosControl, from_=0, to=8000))
     scale_list[i].bind("<ButtonRelease-1>", func)
+    scale_list[i].set(4000)
     scale_list[i].pack(side=tk.LEFT)
 root.mainloop()
 try:
