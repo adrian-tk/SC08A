@@ -1,23 +1,41 @@
+import logging
+logging.basicConfig(level=logging.WARNING)
+#logging.basicConfig(level=logging.DEBUG)
+logging.debug (f"default log level: {logging.getLogger().level}")
 import socket
 import tkinter as tk
 import os
 import json
-import logging
+import argparse
 
-logging.basicConfig(level=logging.DEBUG)
 hostname = 'malina'
-host = socket.gethostbyname(hostname +".local")
-#host = "192.168.0.141"
 port=12000
+
+#parsing command line arguments
+parser = argparse.ArgumentParser(description="Gui for SC08A driver")
+parser.add_argument('-v', action="store_true", dest="ver", default=False)
+parser.add_argument('--log', action="store", dest="log")
+args = parser.parse_args()
+logging.debug(f"Command line arguments: {args}")
+#when command line arg is "-v" set loglevel to INFO
+if args.ver: 
+    logging.debug("change logLevel to INFO")
+    logging.getLogger().setLevel(logging.INFO)
+if args.log!=None: 
+    logl= (getattr(logging, args.log))
+    logging.getLogger().setLevel(logl)
+logging.debug (f"set loglevel to: {logging.getLogger().level}")
 
 conn_status=False #is connected already?
 
 def connect_to_rpi():
-    logging.debug("will try to connect to: "+host)
+    logging.debug("will try to connect to: "+hostname)
     global conn_status
     global s
     try:
         if conn_status == False:
+            host = socket.gethostbyname(hostname +".local")
+            logging.debug(f"hostname: {hostname} has address: {host}")
             s=socket.socket()
             s.connect((host,port))
             button_connect.config(text="disconnect")
@@ -49,7 +67,6 @@ def servo_t(i):
 
 logging.info("=====Start of client=====")
 logging.debug(f"actual directory: {os.getcwd()}")
-logging.debug(socket.gethostbyname("malina" +".local"))
 root=tk.Tk()
 root.title('SC08A servo commander')
 root.geometry('600x200')
