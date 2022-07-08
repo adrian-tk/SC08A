@@ -1,30 +1,25 @@
 import logging
 logging.basicConfig(level=logging.WARNING)
-#logging.basicConfig(level=logging.DEBUG)
-logging.debug (f"default log level: {logging.getLogger().level}")
 import socket
 import tkinter as tk
 import os
 import json
-import argparse
+import parser_client
 
 hostname = 'malina'
 port=12000
 
+
 #parsing command line arguments
-parser = argparse.ArgumentParser(description="Gui for SC08A driver")
-parser.add_argument('-v', action="store_true", dest="ver", default=False)
-parser.add_argument('--log', action="store", dest="log")
+parser = parser_client.create_parser()
 args = parser.parse_args()
 logging.debug(f"Command line arguments: {args}")
 #when command line arg is "-v" set loglevel to INFO
-if args.ver: 
-    logging.debug("change logLevel to INFO")
-    logging.getLogger().setLevel(logging.INFO)
-if args.log!=None: 
-    logl= (getattr(logging, args.log))
+if args.verbose: logging.getLogger().setLevel(logging.INFO)
+if args.loglevel!=None: 
+    logl= (getattr(logging, args.loglevel))
     logging.getLogger().setLevel(logl)
-logging.debug (f"set loglevel to: {logging.getLogger().level}")
+logging.debug (f"loglevel is set to: {logging.getLogger().level}")
 
 conn_status=False #is connected already?
 
