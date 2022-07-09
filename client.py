@@ -11,15 +11,18 @@ port=12000
 
 
 #parsing command line arguments
-parser = parser_client.create_parser()
-args = parser.parse_args()
-logging.debug(f"Command line arguments: {args}")
+p = parser_client.ArgPar()
+args = p.parser.parse_args()
 #when command line arg is "-v" set loglevel to INFO
 if args.verbose: logging.getLogger().setLevel(logging.INFO)
 if args.loglevel!=None: 
     logl= (getattr(logging, args.loglevel))
     logging.getLogger().setLevel(logl)
 logging.debug (f"loglevel is set to: {logging.getLogger().level}")
+logging.debug(f"Command line arguments: {args}")
+
+if args.hostname !=None: hostname=args.hostname
+if args.port !=None: port=args.port
 
 conn_status=False #is connected already?
 
