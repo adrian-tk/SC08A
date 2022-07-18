@@ -81,7 +81,7 @@ lframe_ServosControl = tk.LabelFrame(root, text="Servos Control")
 lframe_ServosControl.pack()
 
 scale_list=[]
-for i in range(8):
+for i in range(9):
     def func(event, x=i):
         return servo_t(x)
     scale_list.insert(i, tk.Scale(lframe_ServosControl, from_=0, to=8000))
