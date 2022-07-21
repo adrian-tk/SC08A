@@ -1,5 +1,4 @@
 import argparse
-from argparse import RawTextHelpFormatter
 
 class ArgPar:
     def __init__(self):
@@ -18,4 +17,3 @@ class ArgPar:
         if self.parser.parse_args().loglevel != None: 
             self.parser.parse_args().verbose = False
 
-        #return parser
