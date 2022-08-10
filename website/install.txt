@@ -1,0 +1,26 @@
+install apache2
+install libapache2-mod-wsgi-py3
+
+in /etc/apache2/apache2.conf add:
+Alias /static/ /path/to/automatic/collected_static/
+<Directory path/to/automatic/collected_static>
+	Options Indexes FollowSymLinks
+	AllowOverride None
+	Require all granted
+</Directory>
+
+WSGIScriptAlias / /path/to/mysite.com/mysite/wsgi.py
+WSGIPythonHome /path/to/venv
+WSGIPythonPath /path/to/mysite.com
+WSGIApplicationGroup %{GLOBAL}
+
+<Directory /path/to/mysite.com/mysite>
+<Files wsgi.py>
+Require all granted
+</Files>
+</Directory>
+
+in /etc/apache2/envvars set user wchich is owner of database
+export APACHE_RUN_USER=owner_of_database_file
+/etc/init.d/apache2 start
+
