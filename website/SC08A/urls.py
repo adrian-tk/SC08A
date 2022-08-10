@@ -4,10 +4,10 @@ from . import views
 
 app_name = 'SC08A'
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='index'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path('<int:pk>/results/', views.DetailView.as_view(), name='results'),
-    path('<int:question_id>/vote/', views.vote, name='vote'),
+#    path('', views.IndexView.as_view(), name='index'),
+#    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+#    path('<int:pk>/results/', views.DetailView.as_view(), name='results'),
+#    path('<int:question_id>/vote/', views.vote, name='vote'),
     path('motor/', views.MotorsView.as_view(), name='motors'),
     path('motor/<int:moto_id>/', views.motor, name='one_motor'),
     path('motor/<int:moto_id>/update_name', views.update_name, name='update_name'),

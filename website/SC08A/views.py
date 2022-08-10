@@ -4,27 +4,21 @@ from django.urls import reverse
 from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .models import Question
 from .models import Motor
 from django.views import generic
 
-class IndexView(generic.ListView):
-    template_name = 'SC08A/index.html'
-    context_object_name = 'latest_question_list'
-    def get_queryset(self):
-        return Question.objects.order_by('-pub_date')[:5]
 
 # Create your views here.
-class DetailView(generic.DetailView):
-    model=Question
-    template_name = 'SC08A/detail.html'
-
-class ResultsView(generic.DetailView):
-    model=Question
-    template_name = 'SC08A/results.html'
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
+#class DetailView(generic.DetailView):
+#    model=Question
+#    template_name = 'SC08A/detail.html'
+#
+##class ResultsView(generic.DetailView):
+#    model=Question
+#    template_name = 'SC08A/results.html'
+#
+#def vote(request, question_id):
+#    return HttpResponse("You're voting on question %s." % question_id)
 
 class MotorsView(generic.ListView):
     model=Motor
