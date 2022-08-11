@@ -7,28 +7,16 @@ from django.http import HttpResponseRedirect
 from .models import Motor
 from django.views import generic
 
-
-# Create your views here.
-#class DetailView(generic.DetailView):
-#    model=Question
-#    template_name = 'SC08A/detail.html'
-#
-##class ResultsView(generic.DetailView):
-#    model=Question
-#    template_name = 'SC08A/results.html'
-#
-#def vote(request, question_id):
-#    return HttpResponse("You're voting on question %s." % question_id)
-
 class MotorsView(generic.ListView):
     model=Motor
     template_name = 'SC08A/motoindex.html'
 
-def motor(request, moto_id):
-    motor = get_object_or_404(Motor, pk=moto_id)
-    context = {'motor': motor}
-    return render(request, 'SC08A/moto.html', context)
-    #return HttpResponse("Here, You will see  servodrive nr. %s" % moto_id)
+class MotorDetail(generic.DetailView):
+    model=Motor
+    template_name = 'SC08A/moto.html'
+
+class UpdateName(generic.DetailView):
+    model=Motor
 
 def update_name(request, moto_id):
     motor=get_object_or_404(Motor, pk=moto_id)
