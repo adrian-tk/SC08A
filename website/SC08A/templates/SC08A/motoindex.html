@@ -1,17 +1,26 @@
-<h1>"Servo list:"</h1>
-	{% for motor in motor_list %}
-	<fieldset>
-		<legend> {{motor}} </legend>
-		<label> ch: {{motor.channel_no}} </label>
-		<input type="range" name="speed" value={{motor.value}} min=-4000 max=4000>
-		<button type="button">
-			<a href="{% url 'SC08A:one_motor' motor.id %}">Modify</a>
-		</button>
-	</fieldset>
-	{% endfor %}
-	<br>
-	<form action="{% url 'SC08A:add_motor' %}" method="post">
-	{%csrf_token %}
-	<input type="submit" value="Add Servomotor">
-	</form>
+<html>
+	<head><title>SC08A driver</title></head>
+	<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' >
+	<h1>"Servo list:"</h1>
+	<script src="https://unpkg.com/htmx.org@1.8.0"></script>
+		{% for motor in motor_list %}
+		<fieldset>
+			<legend> {{motor}} </legend>
+			<label> ch: {{motor.channel_no}} </label>
+			<input type="range" name={{motor.channel_no}} value={{motor.value}}
+				min=4000 max=8000 hx-get="setval/" hx-swap="none" >
+			<button type="button">
+				<a href="{% url 'SC08A:one_motor' motor.id %}">Modify</a>
+			</button>
+		</fieldset>
+		{% endfor %}
+		<br>
+		<form action="{% url 'SC08A:add_motor' %}" method="post">
+		{%csrf_token %}
+		<input type="submit" value="Add Servomotor">
+		</form>
+		<input type="button" name ="Stop" value="Stop all servo's"
+			hx-get="stop/" hx-swap ="none">
+	</body>
+</html>
 

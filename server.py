@@ -34,14 +34,14 @@ while True:
         if not content:
             logging.info("server: No content, disconnect")
             logging.info("server: stop socket connection")
-            driver.off()
+            #driver.off()
             break
         logging.info("server: data from client: " + str(content))
         data = json.loads(content)
         print (data["number"])
-        servo_no = data["number"]
-        servo_val = data["value"]
-        driver.servo[servo_no].set(float(servo_val))
+        servo_no = int(data["number"])
+        servo_val = float(data["value"])
+        driver.servo[servo_no].set(servo_val)
         #driver.uart.write(ser.pack_data(8, float(content), 1.0))
         #driver.servo[1].set(float(content))
 logging.info("server: End of server")
