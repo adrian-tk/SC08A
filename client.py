@@ -40,7 +40,8 @@ def connect_to_rpi():
             conn_status = True
             logging.info("Connected to: " + host)
         else:
-            logging.info("Disconected from: " + host)
+            #logging.info("Disconected from: " + host)
+            logging.info("Disconected ")
             button_connect.config(text="connect")
             conn_status = False
             s.shutdown(socket.SHUT_RDWR)
