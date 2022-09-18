@@ -11,6 +11,7 @@ urlpatterns = [
     path('motor/', views.MotorsView.as_view(), name='motors'),
     path('motor/<int:pk>/', views.MotorDetail.as_view(), name='one_motor'),
     path('motor/setval/', views.SetVal.as_view(), name='setval'),
+    path('motor/stop/', views.StopAll.as_view(), name='stop_all'),
    # path('motor/<int:pk>/update_name', views.UpdateName.as_view(), name='update_name'),
     path('motor/<int:moto_id>/update_name', views.update_name, name='update_name'),
     path('motor/<int:moto_id>/update_channel', views.update_channel, name='update_channel'),

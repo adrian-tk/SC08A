@@ -8,7 +8,7 @@
 			<legend> {{motor}} </legend>
 			<label> ch: {{motor.channel_no}} </label>
 			<input type="range" name={{motor.channel_no}} value={{motor.value}}
-				min=-4000 max=4000 hx-get="setval/" hx-swap="none" >
+				min=4000 max=8000 hx-get="setval/" hx-swap="none" >
 			<button type="button">
 				<a href="{% url 'SC08A:one_motor' motor.id %}">Modify</a>
 			</button>
@@ -19,6 +19,8 @@
 		{%csrf_token %}
 		<input type="submit" value="Add Servomotor">
 		</form>
+		<input type="button" name ="Stop" value="Stop all servo's"
+			hx-get="stop/" hx-swap ="none">
 	</body>
 </html>
 

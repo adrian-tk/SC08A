@@ -21,10 +21,16 @@ class SetVal(generic.TemplateView):
     def get(self, request, *args, **kwargs):
         #val=request.GET.items()
         keys = list(request.GET)
-        send_socket.send_to_socket("kanał" + keys[0])
-        send_socket.send_to_socket(request.GET[keys[0]])
+        val = request.GET[keys[0]]
+        send_socket.send_to_socket(keys[0], val)
         val=request.GET.keys()
         return HttpResponse(val)
+
+class StopAll(generic.TemplateView):
+    template_name='SC08A/stopall.html'
+    def get(self, request, *args, **kwargs):
+        send_socket.send_to_socket(0, 4000)
+        return HttpResponse(0)
 
 class UpdateName(generic.DetailView):
     model=Motor
