@@ -1,20 +1,28 @@
-<h1>{{motor}}</h1>
-<label> Channel number: {{motor.channel_no}} </label>
-<br>
-<form action="{% url 'SC08A:update_channel' motor.id %}" method="post">
-{%csrf_token %}
-	<input id="new_channel" type="number" name="new_channel" value="{{motor.channel_no}}">
-	<input type="submit" value="Change channel">
-</form>
-<label> Motor name: {{motor.motor_name}} </label>
-<form action="{% url 'SC08A:update_name' motor.id %}" method="post">
-{%csrf_token %}
-	<input id="new_name" type="text" name="new_name" value="{{motor.motor_name}}">
-	<input type="submit" value="Change name">
-</form>
-<br>
-<form action="{% url 'SC08A:delete_motor' motor.id %}" method="post">
-{%csrf_token %}
-	<input type="submit" value="delete motor">
-</form>
+<html>
+<head>
+	<title>Detail of motor</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<h1>{{motor}}</h1>
+	<label> Channel number: {{motor.channel_no}} </label>
+	<br>
+	<form action="{% url 'SC08A:update_channel' motor.id %}" method="post">
+	{%csrf_token %}
+		<input id="new_channel" type="number" name="new_channel" value="{{motor.channel_no}}">
+		<input type="submit" value="Change channel">
+	</form>
+	<label> Motor name: {{motor.motor_name}} </label>
+	<form action="{% url 'SC08A:update_name' motor.id %}" method="post">
+	{%csrf_token %}
+		<input id="new_name" type="text" name="new_name" value="{{motor.motor_name}}">
+		<input type="submit" value="Change name">
+	</form>
+	<br>
+	<form action="{% url 'SC08A:delete_motor' motor.id %}" method="post">
+	{%csrf_token %}
+		<input type="submit" value="delete motor">
+	</form>
+</body>
+</html>
 
