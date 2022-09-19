@@ -7,6 +7,7 @@ Raspberry pi get data thru socket using servo.py app.
 pc send data to raspberry pi thru socket with two ways: website and client.py app.
 
 web browser -> Django with htmx on apache2 ->{socket}-> Rpi (server) ->{uart}-> SC08A ->{impulses}-> servo.
+
 PC (client) ->{socket}-> Rpi (server) ->{uart}-> SC08A ->{impulses}-> servo.
 
 for error:
