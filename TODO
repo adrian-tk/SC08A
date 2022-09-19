@@ -1,3 +1,5 @@
 scale send data to socket, error when there is no socket
 program hangs when cant connect
 async with websocket
+move socket data do database and add a config to website
+add server to autostart
